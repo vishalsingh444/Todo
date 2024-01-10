@@ -21,6 +21,14 @@ A simple todo application built using MVVM architecture and Jetpack Compose. Thi
     
 
 ### Screenshots
+
+
+https://github.com/vishalsingh444/Todo/assets/123194054/8e96351a-be64-4393-a177-a3ea652d56fe
+
+
+https://github.com/vishalsingh444/Todo/assets/123194054/f4e81ac1-186d-446c-9737-358ea22986b6
+
+
 <img src="https://github.com/vishalsingh444/Todo/assets/123194054/38ee351e-7dc0-47e1-a86b-e2358ba77292" width="300">
 <img src="https://github.com/vishalsingh444/Todo/assets/123194054/e6ac3ed0-30c3-4fa3-af7d-a0f63fc4bca0" width="300">
 <img src="https://github.com/vishalsingh444/Todo/assets/123194054/27a89e3b-be94-43a0-a538-a13b7d2c4aeb" width="300">
