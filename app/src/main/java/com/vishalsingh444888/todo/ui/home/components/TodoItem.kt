@@ -38,6 +38,7 @@ import com.vishalsingh444888.todo.R
 import com.vishalsingh444888.todo.data.Priority
 import com.vishalsingh444888.todo.data.Status
 import com.vishalsingh444888.todo.data.Todo
+import com.vishalsingh444888.todo.ui.categorized_todo.CategorizedTodoEvent
 import com.vishalsingh444888.todo.ui.home.TodoScreenEvent
 import com.vishalsingh444888.todo.ui.theme.CheckGreen
 
@@ -99,6 +100,61 @@ fun TodoItem(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun CategorizedTodoItem(
+    todo: Todo,
+    onEvent: (CategorizedTodoEvent) -> Unit,
+    modifier:Modifier = Modifier
+) {
+    val priority = when(todo.priority){
+        Priority.LOW -> "Low"
+        Priority.MEDIUM -> "Medium"
+        Priority.HIGH -> "High"
+    }
+    Card(
+        modifier = modifier
+            .height(80.dp)
+            .fillMaxWidth()
+            .border(1.dp, color = Color.White, shape = RoundedCornerShape(16.dp))
+        ,
+        elevation = CardDefaults.cardElevation(6.dp),
+        colors = CardDefaults.elevatedCardColors(MaterialTheme.colorScheme.background),
+        ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+
+        ) {
+            IconButton(onClick = {onEvent(CategorizedTodoEvent.OnDoneClick(todo)) }) {
+                if(todo.status != Status.COMPLETED){
+                    Icon(painter = painterResource(id = R.drawable.circle_24px), contentDescription = "Task incomplete", tint = MaterialTheme.colorScheme.secondary)
+                }else{
+                    Icon(painter = painterResource(id = R.drawable.check_circle_filled), contentDescription = "Task completed", tint = MaterialTheme.colorScheme.secondary)
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                    Text(text = todo.title, fontSize = 16.sp, fontWeight = FontWeight.SemiBold,modifier = Modifier.fillMaxWidth(0.7f), overflow = TextOverflow.Ellipsis, maxLines = 1)
+                    Text(text = todo.dueDate, fontSize = 12.sp,)
+                }
+                Spacer(Modifier.height(4.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+                    Text(text = todo.category, fontSize = 12.sp)
+                    Text(text = "priority: $priority", fontSize = 12.sp)
+                }
+            }
+        }
+    }
+}
 @Preview
 @Composable
 fun  TodoItemPreview(){

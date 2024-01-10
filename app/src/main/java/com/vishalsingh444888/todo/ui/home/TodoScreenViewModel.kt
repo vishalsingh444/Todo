@@ -106,6 +106,7 @@ class TodoScreenViewModel @Inject constructor(
                 }
             }
 
+            else -> {}
         }
     }
 

@@ -43,7 +43,10 @@ fun Navigate() {
                 }
             )
         ){
-            CategorizedTodoScreen(onNavigate = {navController.navigate(it.route)}, onPopBackStack = {navController.popBackStack()})
+            CategorizedTodoScreen(
+                onNavigate = {navController.navigate(it.route)},
+                onPopBackStack = {navController.popBackStack()}
+            )
         }
     }
 }

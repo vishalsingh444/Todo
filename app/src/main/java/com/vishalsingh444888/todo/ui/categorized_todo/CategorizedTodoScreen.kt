@@ -2,12 +2,16 @@ package com.vishalsingh444888.todo.ui.categorized_todo
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -31,8 +35,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.ui.home.TodoList
+import com.vishalsingh444888.todo.ui.home.TodoScreenEvent
 import com.vishalsingh444888.todo.ui.home.TodoScreenViewModel
+import com.vishalsingh444888.todo.ui.home.components.CategorizedTodoItem
+import com.vishalsingh444888.todo.ui.home.components.TodoItem
 import com.vishalsingh444888.todo.ui.home.getCategoryProperties
 import com.vishalsingh444888.todo.util.UiEvent
 
@@ -43,7 +51,6 @@ fun CategorizedTodoScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     onPopBackStack: () ->Unit,
     viewModel: CategorizedTodoViewModel = hiltViewModel(),
-    todoScreenViewModel: TodoScreenViewModel = hiltViewModel()
 ) {
     val todos = viewModel.todos.collectAsState()
 
@@ -116,7 +123,18 @@ fun CategorizedTodoScreen(
 
             Text(text = "TODOS", fontSize = 16.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
 
-            TodoList(todos = todos.value, onEvent =  todoScreenViewModel::onEvent)
+            TodoList(todos = todos.value, onEvent =  viewModel::onEvent)
+        }
+    }
+}
+
+@Composable
+fun TodoList(todos: List<Todo>, onEvent: (CategorizedTodoEvent) -> Unit) {
+    LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
+        items(todos) { todo ->
+            CategorizedTodoItem(todo = todo, onEvent = onEvent, modifier = Modifier
+                .padding(vertical = 8.dp)
+                .clickable { onEvent(CategorizedTodoEvent.OnTodoClick(todo)) })
         }
     }
 }
