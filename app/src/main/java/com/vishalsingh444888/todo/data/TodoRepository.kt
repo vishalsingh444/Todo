@@ -8,12 +8,14 @@ interface TodoRepository {
     suspend fun insertTodo(todo: Todo)
 
     suspend fun deleteTodo(todo: Todo)
+    
+    suspend fun updateTodo(todo: Todo)
 
     suspend fun getTodoById(id: Int): Todo?
 
     fun getAllTodo(): Flow<List<Todo>>
 
-    fun getTodoByCategory(category: Category): Flow<List<Todo>>
+    fun getTodoByCategory(category: String): Flow<List<Todo>>
 
     fun getTodoByPriority(priority: Priority): Flow<List<Todo>>
 

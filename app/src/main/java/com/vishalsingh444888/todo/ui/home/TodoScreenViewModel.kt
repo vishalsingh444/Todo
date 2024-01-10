@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.vishalsingh444888.todo.data.Status
 import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.data.TodoRepository
+import com.vishalsingh444888.todo.util.Category
+import com.vishalsingh444888.todo.util.CurrentDate
 import com.vishalsingh444888.todo.util.Routes
 import com.vishalsingh444888.todo.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,32 +25,29 @@ class TodoScreenViewModel @Inject constructor(
     private val repository: TodoRepository
 ): ViewModel() {
 
-    private val _currentDate = mutableStateOf("")
-    val currentDate: State<String> = _currentDate
+    val date = CurrentDate.Date
 
-    init {
-        getCurrentDate()
-    }
+    private val categories = Category
+    val allCategory = Category.allCategory
+
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
 
-    val todayTodos = repository.getTodayTodo(currentDate.value)
+    val todayTodos = repository.getTodayTodo(date)
     val allTodos = repository.getAllTodo()
-
-    private val allCategory = mutableListOf("Work","Personal","Health","Education","Family")
 
     private var deletedTodo: Todo? = null
 
     fun onEvent(event: TodoScreenEvent){
         when(event){
             is TodoScreenEvent.OnTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO + "?todoId=${event.todo.id}"))
+                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO + "?todoId=${event.todo.id.toString()}"))
             }
 
             TodoScreenEvent.OnAddTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO))
+                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO + "?todoId=-1"))
             }
 
             is TodoScreenEvent.OnCategoryClick -> {
@@ -68,9 +67,11 @@ class TodoScreenViewModel @Inject constructor(
 
             is TodoScreenEvent.OnDoneChange -> {
                 viewModelScope.launch {
+                    val isCompleted = event.todo.status==Status.NEW||event.todo.status==Status.IN_PROGRESS
+                    val status = if (isCompleted) Status.COMPLETED else Status.IN_PROGRESS
                     repository.insertTodo(
                         event.todo.copy(
-                            status = Status.COMPLETED
+                            status = status
                         )
                     )
                 }
@@ -84,6 +85,7 @@ class TodoScreenViewModel @Inject constructor(
                     }
                 }
             }
+
         }
     }
 
@@ -92,25 +94,4 @@ class TodoScreenViewModel @Inject constructor(
             _uiEvent.send(event)
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private fun getCurrentDate(){
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currDate = Date()
-        _currentDate.value = dateFormat.format(currDate)
-    }
-
-
-
 }

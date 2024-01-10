@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,11 +17,14 @@ interface TodoDao {
     @Delete
     suspend fun deleteTodo(todo: Todo)
 
+    @Update
+    suspend fun updateTodo(todo: Todo)
+
     @Query("SELECT * FROM todo")
     fun getAllTodo(): Flow<List<Todo>>
 
     @Query("SELECT * FROM todo WHERE category = :category")
-    fun getTodoByCategory(category: Category): Flow<List<Todo>>
+    fun getTodoByCategory(category: String): Flow<List<Todo>>
 
     @Query("SELECT * FROM todo WHERE priority = :priority")
     fun getTodoByPriority(priority: Priority): Flow<List<Todo>>

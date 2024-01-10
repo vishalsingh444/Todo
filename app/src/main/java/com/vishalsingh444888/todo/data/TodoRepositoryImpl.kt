@@ -17,23 +17,27 @@ class TodoRepositoryImp(
         return dao.getTodoById(id)
     }
 
-    override suspend fun getAllTodo(): Flow<List<Todo>> {
+    override fun getAllTodo(): Flow<List<Todo>> {
         return dao.getAllTodo()
     }
 
-    override suspend fun getTodoByCategory(category: Category): Flow<List<Todo>> {
-        return dao.getTodoByCategory(category);
+    override fun getTodoByCategory(category: String): Flow<List<Todo>> {
+        return dao.getTodoByCategory(category)
     }
 
-    override suspend fun getTodoByPriority(priority: Priority): Flow<List<Todo>> {
+    override suspend fun updateTodo(todo: Todo) {
+        dao.updateTodo(todo)
+    }
+
+    override fun getTodoByPriority(priority: Priority): Flow<List<Todo>> {
         return dao.getTodoByPriority(priority)
     }
 
-    override suspend fun getTodoByDueDate(): Flow<List<Todo>> {
+    override fun getTodoByDueDate(): Flow<List<Todo>> {
         return dao.getTodoByDueDate()
     }
 
-    override suspend fun getTodayTodo(date: String): Flow<List<Todo>> {
+    override fun getTodayTodo(date: String): Flow<List<Todo>> {
         return dao.getTodayTodo(date)
     }
 }

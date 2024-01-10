@@ -6,7 +6,7 @@ import com.vishalsingh444888.todo.data.Todo
 sealed class TodoScreenEvent {
     data class OnDeleteTodoClick(val todo: Todo): TodoScreenEvent()
 
-    data class OnDoneChange(val todo:Todo,val isCompleted: Boolean): TodoScreenEvent()
+    data class OnDoneChange(val todo:Todo): TodoScreenEvent()
 
     object OnUndoDeleteClick: TodoScreenEvent()
 
@@ -15,4 +15,5 @@ sealed class TodoScreenEvent {
     object OnAddTodoClick: TodoScreenEvent()
 
     data class OnCategoryClick(val category: String): TodoScreenEvent()
+
 }
