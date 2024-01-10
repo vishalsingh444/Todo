@@ -15,8 +15,11 @@ import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -79,13 +82,7 @@ fun AddEditTodoScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.onEvent(AddEditTodoEvent.OnSaveClick)
-            }) {
-                Text(text = "Save", fontSize = 12.sp)
-            }
-        }
+
     ) { paddingValue ->
         Column(
             modifier = Modifier
@@ -198,7 +195,9 @@ fun AddEditTodoScreen(
                     },
                     shape = RoundedCornerShape(16.dp),
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
                 )
                 Spacer(Modifier.height(16.dp))
                 OutlinedTextField(
@@ -216,7 +215,7 @@ fun AddEditTodoScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
-                        .height(400.dp)
+                        .height(350.dp)
                         .bringIntoViewRequester(bringIntoViewRequester)
                         .onFocusChanged {
                             if (it.isFocused) {
@@ -227,6 +226,17 @@ fun AddEditTodoScreen(
                             }
                         }
                 )
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp), verticalAlignment = Alignment.CenterVertically){
+                    Button(onClick = { viewModel.onEvent(AddEditTodoEvent.OnDeleteClick) },modifier = Modifier.weight(1f), shape = RoundedCornerShape(12.dp), colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.background)) {
+                        Text("Delete")
+                    }
+                    Spacer(Modifier.width(16.dp))
+                    Button(onClick = { viewModel.onEvent(AddEditTodoEvent.OnSaveClick) },modifier = Modifier.weight(1f),shape = RoundedCornerShape(12.dp),colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.background)) {
+                        Text("Save")
+                    }
+                }
             }
         }
     }

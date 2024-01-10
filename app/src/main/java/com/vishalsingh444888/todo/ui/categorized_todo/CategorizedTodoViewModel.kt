@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.vishalsingh444888.todo.data.Status
 import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.data.TodoRepository
-import com.vishalsingh444888.todo.util.Category
 import com.vishalsingh444888.todo.util.Routes
 import com.vishalsingh444888.todo.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +25,6 @@ class CategorizedTodoViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) :ViewModel() {
 
-    val categories = Category
     var category by mutableStateOf("")
         private set
 
@@ -87,7 +85,7 @@ class CategorizedTodoViewModel @Inject constructor(
                             category = category
                         ))
                     }
-                    categories.updateCategories(category)
+
                     sendUiEvent(UiEvent.PopBackStack)
                 }
             }

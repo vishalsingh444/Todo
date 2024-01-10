@@ -24,6 +24,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -64,7 +65,7 @@ fun TodoScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: TodoScreenViewModel = hiltViewModel()
 ) {
-    val allCategory = viewModel.allCategory.value
+    val allCategory = viewModel.categories.collectAsState(emptyList())
 
     val todayTodo = viewModel.todayTodos.collectAsState(emptyList()).value
 
@@ -127,7 +128,7 @@ fun TodoScreen(
             CategoryList(
                 allTodo = allTodo,
                 onEvent = viewModel::onEvent,
-                allCategory = allCategory
+                allCategory = allCategory.value
             )
             Column(
                 modifier = Modifier
@@ -168,6 +169,8 @@ fun NoTodo() {
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+        elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

@@ -22,4 +22,6 @@ interface TodoRepository {
     fun getTodoByDueDate(): Flow<List<Todo>>
 
     fun getTodayTodo(date: String): Flow<List<Todo>>
+
+    fun getAllCategories(): Flow<List<String>>
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.vishalsingh444888.todo.data.Status
 import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.data.TodoRepository
-import com.vishalsingh444888.todo.util.Category
 import com.vishalsingh444888.todo.util.CurrentDate
 import com.vishalsingh444888.todo.util.Routes
 import com.vishalsingh444888.todo.util.UiEvent
@@ -50,9 +49,7 @@ class TodoScreenViewModel @Inject constructor(
 
     val date = CurrentDate.Date
 
-    private val categories = Category
-    val allCategory = Category.allCategory
-
+    val categories = repository.getAllCategories()
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()

@@ -1,6 +1,5 @@
 package com.vishalsingh444888.todo.ui.add_edit_todo
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,7 +10,6 @@ import com.vishalsingh444888.todo.data.Priority
 import com.vishalsingh444888.todo.data.Status
 import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.data.TodoRepository
-import com.vishalsingh444888.todo.util.Category
 import com.vishalsingh444888.todo.util.CurrentDate
 import com.vishalsingh444888.todo.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +25,7 @@ class AddEditTodoViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ):ViewModel() {
 
-    val categories = Category.allCategory
+
     val date = CurrentDate.Date
     var todo by mutableStateOf<Todo?>(null)
         private set
@@ -85,15 +83,13 @@ class AddEditTodoViewModel @Inject constructor(
             }
             AddEditTodoEvent.OnSaveClick -> {
                 viewModelScope.launch {
-                    if(title.isBlank() && description.isBlank() && category.isBlank()){
+                    if(title.isBlank() || description.isBlank() || category.isBlank()){
                         sendUiEvent(UiEvent.ShowSnackbar(
                             message = "Title,desc and Category can't be empty"
                         ))
                         return@launch
                     }
-                    if(!categories.value.contains(category)){
-                        Category.updateCategories(category)
-                    }
+
                     if(todoId!=1){
                         repository.insertTodo(
                             Todo(
@@ -132,6 +128,12 @@ class AddEditTodoViewModel @Inject constructor(
                 priority = event.priority
             }
 
+            is AddEditTodoEvent.OnDeleteClick -> {
+                viewModelScope.launch {
+                    todo?.let { todo: Todo ->  repository.deleteTodo(todo) }
+                    sendUiEvent(UiEvent.PopBackStack)
+                }
+            }
         }
     }
     private fun sendUiEvent(event: UiEvent){

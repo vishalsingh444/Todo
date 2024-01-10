@@ -2,6 +2,7 @@ package com.vishalsingh444888.todo.ui.add_edit_todo
 
 import com.vishalsingh444888.todo.data.Priority
 import com.vishalsingh444888.todo.data.Status
+import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.util.CurrentDate
 
 sealed class AddEditTodoEvent{
@@ -20,4 +21,6 @@ sealed class AddEditTodoEvent{
     data class OnCategoryChange(val category: String): AddEditTodoEvent()
 
     object OnSaveClick: AddEditTodoEvent()
+
+    object OnDeleteClick: AddEditTodoEvent()
 }

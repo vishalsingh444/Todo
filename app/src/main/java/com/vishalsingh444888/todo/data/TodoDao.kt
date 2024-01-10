@@ -37,4 +37,7 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo WHERE dueDate = :date")
     fun getTodayTodo(date: String): Flow<List<Todo>>
+
+    @Query("SELECT DISTINCT category FROM todo")
+    fun getAllCategories(): Flow<List<String>>
 }
