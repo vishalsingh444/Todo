@@ -1,6 +1,8 @@
 package com.vishalsingh444888.todo.ui.home.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,15 +15,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -52,8 +57,12 @@ fun TodoItem(
         modifier = modifier
             .height(80.dp)
             .fillMaxWidth()
-            ,
+            .border(1.dp, color = Color.White, shape = RoundedCornerShape(16.dp))
+             ,
         elevation = CardDefaults.cardElevation(6.dp),
+        colors = CardDefaults.elevatedCardColors(MaterialTheme.colorScheme.background),
+
+
     ) {
         Row(
             modifier = Modifier
@@ -64,9 +73,9 @@ fun TodoItem(
         ) {
             IconButton(onClick = {onEvent(TodoScreenEvent.OnDoneChange(todo)) }) {
                 if(todo.status != Status.COMPLETED){
-                    Icon(painter = painterResource(id = R.drawable.circle_24px), contentDescription = "Task incomplete", tint = CheckGreen)
+                    Icon(painter = painterResource(id = R.drawable.circle_24px), contentDescription = "Task incomplete", tint = MaterialTheme.colorScheme.secondary)
                 }else{
-                    Icon(painter = painterResource(id = R.drawable.check_circle_filled), contentDescription = "Task completed", tint = CheckGreen)
+                    Icon(painter = painterResource(id = R.drawable.check_circle_filled), contentDescription = "Task completed", tint = MaterialTheme.colorScheme.secondary)
                 }
             }
             Column(

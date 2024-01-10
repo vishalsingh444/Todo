@@ -3,6 +3,7 @@ package com.vishalsingh444888.todo.ui.home
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -25,6 +27,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -69,8 +72,7 @@ fun TodoScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var currentTime by remember { mutableStateOf(LocalTime.now()) }
-    var context = LocalContext.current
+    val currentTime by viewModel.CurrentTime
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
@@ -98,15 +100,18 @@ fun TodoScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(TodoScreenEvent.OnAddTodoClick)
-            }) {
+            }, shape = CircleShape
+                ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add Todo")
             }
         }
     ) {
         Column(
             modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
@@ -117,7 +122,6 @@ fun TodoScreen(
                 text = "CATEGORIES",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
                 modifier = Modifier.padding(16.dp)
             )
             CategoryList(
@@ -135,7 +139,7 @@ fun TodoScreen(
                         text = "TODAY'S TODO",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Gray
+
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     TodoList(todos = todayTodo, onEvent = viewModel::onEvent)
@@ -145,7 +149,7 @@ fun TodoScreen(
                     text = "ALL TODOS",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Gray
+
                 )
                 Spacer(Modifier.height(16.dp))
                 if (allTodo.isNotEmpty()) {
@@ -156,56 +160,6 @@ fun TodoScreen(
             }
         }
     }
-//    val demoTodo = listOf(
-//        Todo(
-//            title = "Go to Gym",
-//            description = "Go to Gym from 7 - 9",
-//            dueDate = "09/01/2024",
-//            priority = Priority.HIGH,
-//            category = "Health",
-//            status = Status.COMPLETED
-//        ),
-//        Todo(
-//            title = "attend class",
-//            description = "attend from 7 - 9",
-//            dueDate = "09/01/2024",
-//            priority = Priority.HIGH,
-//            category = "Education",
-//            status = Status.NEW
-//        ),
-//        Todo(
-//            title = "Go to Gym",
-//            description = "Go to Gym from 7 - 9",
-//            dueDate = "09/01/2024",
-//            priority = Priority.HIGH,
-//            category = "Health",
-//            status = Status.COMPLETED
-//        ),
-//        Todo(
-//            title = "attend class",
-//            description = "attend from 7 - 9",
-//            dueDate = "09/01/2024",
-//            priority = Priority.HIGH,
-//            category = "Education",
-//            status = Status.NEW
-//        ),
-//        Todo(
-//            title = "Go to Gym",
-//            description = "Go to Gym from 7 - 9",
-//            dueDate = "09/01/2024",
-//            priority = Priority.HIGH,
-//            category = "Health",
-//            status = Status.COMPLETED
-//        ),
-//        Todo(
-//            title = "attend class",
-//            description = "attend from 7 - 9",
-//            dueDate = "09/01/2024",
-//            priority = Priority.HIGH,
-//            category = "Education",
-//            status = Status.NEW
-//        ),
-//    )
 }
 
 @Composable

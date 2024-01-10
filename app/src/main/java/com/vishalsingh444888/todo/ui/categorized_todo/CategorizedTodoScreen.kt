@@ -1,5 +1,7 @@
 package com.vishalsingh444888.todo.ui.categorized_todo
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,12 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vishalsingh444888.todo.ui.home.TodoList
-import com.vishalsingh444888.todo.ui.home.TodoScreenEvent
 import com.vishalsingh444888.todo.ui.home.TodoScreenViewModel
 import com.vishalsingh444888.todo.ui.home.getCategoryProperties
 import com.vishalsingh444888.todo.util.UiEvent
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategorizedTodoScreen(
@@ -75,8 +75,8 @@ fun CategorizedTodoScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(CategorizedTodoEvent.OnSaveClick)
-            }) {
-                Text(text = "Save")
+            }, shape = RoundedCornerShape(16.dp)) {
+                Text(text = "Save", fontSize = 16.sp)
             }
         }
     ){
@@ -108,7 +108,7 @@ fun CategorizedTodoScreen(
                     .fillMaxWidth()
                     .height(10.dp)
                     .clip(RoundedCornerShape(16.dp)),
-                color = Color.Blue,
+                color = MaterialTheme.colorScheme.primary,
                 trackColor = Color.LightGray
             )
 

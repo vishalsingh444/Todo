@@ -1,5 +1,7 @@
 package com.vishalsingh444888.todo.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,6 +14,7 @@ import com.vishalsingh444888.todo.ui.categorized_todo.CategorizedTodoScreen
 import com.vishalsingh444888.todo.ui.home.TodoScreen
 import com.vishalsingh444888.todo.util.Routes
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigate() {
     val navController = rememberNavController()

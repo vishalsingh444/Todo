@@ -10,5 +10,10 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val CheckGreen = Color(0,149,50)
-val Purple = Color(171,0,255)
+val CheckGreen = Color(0xFF95cb11)
+val Purple = Color(0xFFBC13FE)
+
+val White = Color(0xFFFFFFFF)
+val Black = Color(0xFF000000)
+val DarkGrey = Color(0xFF0D0D0D)
+val LightGrey = Color.LightGray

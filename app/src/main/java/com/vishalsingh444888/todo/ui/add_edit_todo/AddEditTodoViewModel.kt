@@ -11,6 +11,7 @@ import com.vishalsingh444888.todo.data.Priority
 import com.vishalsingh444888.todo.data.Status
 import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.data.TodoRepository
+import com.vishalsingh444888.todo.util.Category
 import com.vishalsingh444888.todo.util.CurrentDate
 import com.vishalsingh444888.todo.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +26,8 @@ class AddEditTodoViewModel @Inject constructor(
     private val repository: TodoRepository,
     savedStateHandle: SavedStateHandle
 ):ViewModel() {
+
+    val categories = Category.allCategory
     val date = CurrentDate.Date
     var todo by mutableStateOf<Todo?>(null)
         private set
@@ -87,6 +90,9 @@ class AddEditTodoViewModel @Inject constructor(
                             message = "Title,desc and Category can't be empty"
                         ))
                         return@launch
+                    }
+                    if(!categories.value.contains(category)){
+                        Category.updateCategories(category)
                     }
                     if(todoId!=1){
                         repository.insertTodo(

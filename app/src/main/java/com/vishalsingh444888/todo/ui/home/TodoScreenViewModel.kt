@@ -1,5 +1,7 @@
 package com.vishalsingh444888.todo.ui.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,18 +14,39 @@ import com.vishalsingh444888.todo.util.CurrentDate
 import com.vishalsingh444888.todo.util.Routes
 import com.vishalsingh444888.todo.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class TodoScreenViewModel @Inject constructor(
     private val repository: TodoRepository
 ): ViewModel() {
+    @RequiresApi(Build.VERSION_CODES.O)
+
+    private val _currentTime = mutableStateOf<String>("")
+    @RequiresApi(Build.VERSION_CODES.O)
+    val CurrentTime:State<String> = _currentTime
+
+    init{
+        startUpdatingTime()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun startUpdatingTime() {
+        GlobalScope.launch {
+            while (true){
+                delay(1000)
+                _currentTime.value = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+            }
+        }
+    }
 
     val date = CurrentDate.Date
 
