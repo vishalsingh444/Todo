@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -89,7 +90,7 @@ class AddEditTodoViewModel @Inject constructor(
                         ))
                         return@launch
                     }
-
+                    category = category.trim().split(" ").map { it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }.joinToString(" ")
                     if(todoId!=1){
                         repository.insertTodo(
                             Todo(

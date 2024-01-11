@@ -2,7 +2,6 @@ package com.vishalsingh444888.todo.ui.categorized_todo
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,10 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vishalsingh444888.todo.data.Todo
-import com.vishalsingh444888.todo.ui.home.TodoList
-import com.vishalsingh444888.todo.ui.home.TodoScreenEvent
-import com.vishalsingh444888.todo.ui.home.TodoScreenViewModel
-import com.vishalsingh444888.todo.ui.home.components.CategorizedTodoItem
 import com.vishalsingh444888.todo.ui.home.components.TodoItem
 import com.vishalsingh444888.todo.ui.home.getCategoryProperties
 import com.vishalsingh444888.todo.util.UiEvent
@@ -86,11 +81,11 @@ fun CategorizedTodoScreen(
                 Text(text = "Save", fontSize = 16.sp)
             }
         }
-    ){
+    ){ paddingValue ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValue)
                 .padding(16.dp)
         ) {
             OutlinedTextField(
@@ -132,9 +127,11 @@ fun CategorizedTodoScreen(
 fun TodoList(todos: List<Todo>, onEvent: (CategorizedTodoEvent) -> Unit) {
     LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
         items(todos) { todo ->
-            CategorizedTodoItem(todo = todo, onEvent = onEvent, modifier = Modifier
-                .padding(vertical = 8.dp)
-                .clickable { onEvent(CategorizedTodoEvent.OnTodoClick(todo)) })
+            TodoItem(todo = todo, modifier = Modifier
+                .padding(vertical = 8.dp),
+                onTodoClick = {onEvent(CategorizedTodoEvent.OnTodoClick(todo))},
+                onDone = {onEvent(CategorizedTodoEvent.OnDoneClick(todo))}
+            )
         }
     }
 }

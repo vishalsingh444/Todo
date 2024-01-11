@@ -38,13 +38,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +51,6 @@ import com.vishalsingh444888.todo.data.Todo
 import com.vishalsingh444888.todo.ui.home.components.CategoryItem
 import com.vishalsingh444888.todo.ui.home.components.TodoItem
 import com.vishalsingh444888.todo.util.UiEvent
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -99,10 +95,11 @@ fun TodoScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.onEvent(TodoScreenEvent.OnAddTodoClick)
-            }, shape = CircleShape
-                ) {
+            FloatingActionButton(
+                onClick = {
+                    viewModel.onEvent(TodoScreenEvent.OnAddTodoClick)
+                }, shape = CircleShape
+            ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add Todo")
             }
         }
@@ -113,11 +110,25 @@ fun TodoScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
 
-        ) {
+            ) {
             Spacer(modifier = Modifier.height(16.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween){
-                Text(text = "Hello,", fontSize = 42.sp, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.SemiBold)
-                Text(text = "${currentTime.format(DateTimeFormatter.ofPattern("HH:mm"))}", fontSize = 42.sp, modifier = Modifier.padding(16.dp), fontWeight = FontWeight.SemiBold)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Hello,",
+                    fontSize = 42.sp,
+                    modifier = Modifier.padding(16.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    text = "${currentTime.format(DateTimeFormatter.ofPattern("HH:mm"))}",
+                    fontSize = 42.sp,
+                    modifier = Modifier.padding(16.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
             }
             Text(
                 text = "CATEGORIES",
@@ -141,7 +152,7 @@ fun TodoScreen(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
 
-                    )
+                        )
                     Spacer(modifier = Modifier.height(16.dp))
                     TodoList(todos = todayTodo, onEvent = viewModel::onEvent)
                     Spacer(Modifier.height(16.dp))
@@ -151,7 +162,7 @@ fun TodoScreen(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
 
-                )
+                    )
                 Spacer(Modifier.height(16.dp))
                 if (allTodo.isNotEmpty()) {
                     TodoList(todos = allTodo, onEvent = viewModel::onEvent)
@@ -191,9 +202,13 @@ fun NoTodo() {
 fun TodoList(todos: List<Todo>, onEvent: (TodoScreenEvent) -> Unit) {
     LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
         items(todos) { todo ->
-            TodoItem(todo = todo, onEvent = onEvent, modifier = Modifier
-                .padding(vertical = 8.dp)
-                .clickable { onEvent(TodoScreenEvent.OnTodoClick(todo)) })
+            TodoItem(
+                todo = todo,
+                modifier = Modifier
+                    .padding(vertical = 8.dp),
+                onDone = {onEvent(TodoScreenEvent.OnDoneChange(todo))},
+                onTodoClick = {onEvent(TodoScreenEvent.OnTodoClick(todo))}
+            )
         }
     }
 }

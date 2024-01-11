@@ -3,6 +3,7 @@ package com.vishalsingh444888.todo.ui.categorized_todo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.capitalize
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -80,6 +82,7 @@ class CategorizedTodoViewModel @Inject constructor(
                         ))
                         return@launch
                     }
+                    category = category.trim().split(" ").map { it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() } }.joinToString(" ")
                     todos.value.forEach { todo: Todo ->
                         repository.insertTodo(todo.copy(
                             category = category
