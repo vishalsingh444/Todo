@@ -40,4 +40,7 @@ interface TodoDao {
 
     @Query("SELECT DISTINCT category FROM todo")
     fun getAllCategories(): Flow<List<String>>
+
+    @Query("Select * FROM todo WHERE title LIKE '%' ||  :title || '%'")
+    fun getTodoByTitle(title:String) : Flow<List<Todo>>
 }

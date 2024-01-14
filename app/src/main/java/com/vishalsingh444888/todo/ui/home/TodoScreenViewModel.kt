@@ -29,7 +29,7 @@ class TodoScreenViewModel @Inject constructor(
 ): ViewModel() {
     @RequiresApi(Build.VERSION_CODES.O)
 
-    private val _currentTime = mutableStateOf<String>("")
+    private val _currentTime = mutableStateOf("")
     @RequiresApi(Build.VERSION_CODES.O)
     val CurrentTime:State<String> = _currentTime
 
@@ -59,6 +59,9 @@ class TodoScreenViewModel @Inject constructor(
     val allTodos = repository.getAllTodo()
 
     private var deletedTodo: Todo? = null
+
+    private val _searchedTodo = mutableStateOf<List<Todo>>(emptyList())
+    val searchTodo: State<List<Todo>> = _searchedTodo
 
     fun onEvent(event: TodoScreenEvent){
         when(event){
@@ -106,7 +109,13 @@ class TodoScreenViewModel @Inject constructor(
                 }
             }
 
-            else -> {}
+            is TodoScreenEvent.OnSearchClick -> {
+                viewModelScope.launch {
+                    repository.getTodoByTitle(event.title).collect{
+                        _searchedTodo.value = it
+                    }
+                }
+            }
         }
     }
 

@@ -56,4 +56,8 @@ class TodoRepositoryImp(
     override fun getTodayTodo(date: String): Flow<List<Todo>> {
         return dao.getTodayTodo(date)
     }
+
+    override suspend fun getTodoByTitle(title: String): Flow<List<Todo>> {
+        return dao.getTodoByTitle(title = title)
+    }
 }

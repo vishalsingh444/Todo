@@ -16,4 +16,5 @@ sealed class TodoScreenEvent {
 
     data class OnCategoryClick(val category: String): TodoScreenEvent()
 
+    data class OnSearchClick(val title: String): TodoScreenEvent()
 }
